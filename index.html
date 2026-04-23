@@ -21,7 +21,7 @@
         .logo-area { display: inline-block; cursor: pointer; text-decoration: none; }
         .logo-title { font-family: 'Gaegu', cursive; font-size: 2.8rem; color: var(--primary-color); margin: 0; }
         
-        /* 1. 와이드 아이들 사진 섹션 (반짝이는 애니메이션 적용) */
+        /* 1. 와이드 배너 섹션 */
         .kids-banner {
             max-width: 1100px;
             margin: 30px auto 0;
@@ -36,43 +36,33 @@
             border-radius: 30px;
             border: 8px solid white;
             box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-            background-size: cover;
-            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             transition: 0.5s;
             position: relative;
             overflow: hidden;
-            
-            /* 새 애니메이션: 은은하게 반짝임 */
             animation: twinkle 4s ease-in-out infinite;
         }
 
-        /* [임의 이미지 설정 - 초등 교실 분위기 SVG] */
-        /* 사진 1: 즐거운 수업 시간 일러스트 */
-        .kf1 { 
-            background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400"><rect width="100%" height="100%" fill="%23e3f2fd"/><text x="50%" y="50%" font-family="Arial" font-size="24" fill="%231976d2" text-anchor="middle" dy=".3em">📖 즐거운 국어 시간</text><circle cx="100" cy="100" r="30" fill="%23fff" opacity="0.5"/><circle cx="500" cy="300" r="40" fill="%23fff" opacity="0.3"/></svg>');
-            animation-delay: 0s; 
-        }
-        /* 사진 2: 꿈이 자라는 창작 일러스트 (가운데 강조) */
-        .kf2 { 
-            background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400"><rect width="100%" height="100%" fill="%23fff9c4"/><text x="50%" y="50%" font-family="Arial" font-size="28" font-weight="bold" fill="%23fbc02d" text-anchor="middle" dy=".3em">🎨 꿈 꾸는 그리기</text><polygon points="300,50 320,100 380,100 330,140 350,190 300,160 250,190 270,140 220,100 280,100" fill="%23fff" opacity="0.6"/></svg>');
-            animation-delay: 2s; 
-            flex: 1.2; 
-        } 
-        /* 사진 3: 신나는 놀이/체육 일러스트 */
-        .kf3 { 
-            background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400"><rect width="100%" height="100%" fill="%23e8f5e9"/><text x="50%" y="50%" font-family="Arial" font-size="24" fill="%23388e3c" text-anchor="middle" dy=".3em">⚽ 신나는 체육 시간</text><rect x="50" y="50" width="60" height="60" rx="10" fill="%23fff" opacity="0.4"/><rect x="480" y="280" width="80" height="80" rx="15" fill="%23fff" opacity="0.3"/></svg>');
-            animation-delay: 1s; 
-        }
+        /* [일러스트를 대체하는 귀여운 이모지 아트] */
+        .kf1 { background-color: #E3F2FD; animation-delay: 0s; } /* 국어/독서 */
+        .kf2 { background-color: #FFF9C4; animation-delay: 2s; flex: 1.2; } /* 예술/그리기 */
+        .kf3 { background-color: #E8F5E9; animation-delay: 1s; } /* 활동/놀이 */
+
+        .kid-frame .emoji { font-size: 8rem; margin-bottom: 10px; }
+        .kid-frame .label { font-family: 'Gaegu', cursive; font-size: 1.8rem; color: #777; }
 
         .kid-frame:hover { transform: scale(1.02); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
 
-        /* [새 애니메이션 정의: 은은한 반짝임] */
+        /* [은은하게 반짝이는 효과] */
         @keyframes twinkle {
-            0%, 100% { opacity: 1; box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
-            50% { opacity: 0.85; box-shadow: 0 15px 30px rgba(255, 218, 193, 0.4); } /* 포인트 컬러로 번짐 효과 */
+            0%, 100% { opacity: 1; filter: brightness(1); }
+            50% { opacity: 0.9; filter: brightness(1.1); box-shadow: 0 15px 35px rgba(255, 218, 193, 0.6); }
         }
 
-        /* 2. 메인 카테고리 버튼 섹션 (사진 아래 배치) */
+        /* 2. 메인 카테고리 버튼 섹션 */
         .main-selection { 
             max-width: 1100px;
             margin: 40px auto;
@@ -127,6 +117,7 @@
 
         @media (max-width: 768px) {
             .kids-banner { height: 200px; }
+            .kid-frame .emoji { font-size: 4rem; }
             .main-selection { grid-template-columns: 1fr; }
         }
     </style>
@@ -141,9 +132,18 @@
 
 <div id="bannerArea">
     <div class="kids-banner">
-        <div class="kid-frame kf1" title="즐거운 국어 시간"></div>
-        <div class="kid-frame kf2" title="꿈 꾸는 그리기"></div>
-        <div class="kid-frame kf3" title="신나는 체육 시간"></div>
+        <div class="kid-frame kf1">
+            <span class="emoji">📚</span>
+            <span class="label">즐거운 독서</span>
+        </div>
+        <div class="kid-frame kf2">
+            <span class="emoji">🎨</span>
+            <span class="label">꿈꾸는 미술</span>
+        </div>
+        <div class="kid-frame kf3">
+            <span class="emoji">🏃</span>
+            <span class="label">신나는 놀이</span>
+        </div>
     </div>
 
     <div class="main-selection">
@@ -175,7 +175,7 @@
         '학부모': ['학부모 연락처', '학부모상담']
     };
 
-    let db = JSON.parse(localStorage.getItem('sunny_db_final_v5')) || { posts: [], students: [], photos: [] };
+    let db = JSON.parse(localStorage.getItem('sunny_db_final_fixed')) || { posts: [], students: [], photos: [] };
     let curMain = '', curSub = '';
 
     function openCategory(mainCat) {
@@ -279,7 +279,7 @@
 
     function deletePost(id) { db.posts = db.posts.filter(p => p.id !== id); saveDB(); renderSubView(); }
     function deletePhoto(idx) { db.photos.splice(idx, 1); saveDB(); renderSubView(); }
-    function saveDB() { localStorage.setItem('sunny_db_final_v5', JSON.stringify(db)); }
+    function saveDB() { localStorage.setItem('sunny_db_final_fixed', JSON.stringify(db)); }
 </script>
 </body>
 </html>
