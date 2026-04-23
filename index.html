@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>써니쌤의 교실 - 통합 관리</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&display=swap');
+
+        :root {
+            --primary-color: #FFB7B2;
+            --point-color: #FFDAC1;
+            --sub-color: #B2E2F2;
+            --bg-color: #FFFEF9;
+            --text-dark: #5D5D5D;
+            --white: #ffffff;
+        }
+
+        body { font-family: 'Malgun Gothic', sans-serif; margin: 0; background-color: var(--bg-color); color: var(--text-dark); overflow-x: hidden; }
+        header { background-color: var(--white); padding: 20px 0; text-align: center; border-bottom: 3px dashed var(--point-color); }
+        .logo-area { display: inline-block; cursor: pointer; text-decoration: none; }
+        .logo-title { font-family: 'Gaegu', cursive; font-size: 2.8rem; color: var(--primary-color); margin: 0; }
+        
+        /* 1. 와이드 아이들 사진 섹션 (반짝이는 애니메이션 적용) */
+        .kids-banner {
+            max-width: 1100px;
+            margin: 30px auto 0;
+            padding: 0 20px;
+            display: flex;
+            gap: 15px;
+            height: 350px;
+        }
+
+        .kid-frame {
+            flex: 1;
+            border-radius: 30px;
+            border: 8px solid white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            background-size: cover;
+            background-position: center;
+            transition: 0.5s;
+            position: relative;
+            overflow: hidden;
+            
+            /* 새 애니메이션: 은은하게 반짝임 */
+            animation: twinkle 4s ease-in-out infinite;
+        }
+
+        /* [임의 이미지 설정 - 초등 교실 분위기 SVG] */
+        /* 사진 1: 즐거운 수업 시간 일러스트 */
+        .kf1 { 
+            background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400"><rect width="100%" height="100%" fill="%23e3f2fd"/><text x="50%" y="50%" font-family="Arial" font-size="24" fill="%231976d2" text-anchor="middle" dy=".3em">📖 즐거운 국어 시간</text><circle cx="100" cy="100" r="30" fill="%23fff" opacity="0.5"/><circle cx="500" cy="300" r="40" fill="%23fff" opacity="0.3"/></svg>');
+            animation-delay: 0s; 
+        }
+        /* 사진 2: 꿈이 자라는 창작 일러스트 (가운데 강조) */
+        .kf2 { 
+            background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400"><rect width="100%" height="100%" fill="%23fff9c4"/><text x="50%" y="50%" font-family="Arial" font-size="28" font-weight="bold" fill="%23fbc02d" text-anchor="middle" dy=".3em">🎨 꿈 꾸는 그리기</text><polygon points="300,50 320,100 380,100 330,140 350,190 300,160 250,190 270,140 220,100 280,100" fill="%23fff" opacity="0.6"/></svg>');
+            animation-delay: 2s; 
+            flex: 1.2; 
+        } 
+        /* 사진 3: 신나는 놀이/체육 일러스트 */
+        .kf3 { 
+            background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400"><rect width="100%" height="100%" fill="%23e8f5e9"/><text x="50%" y="50%" font-family="Arial" font-size="24" fill="%23388e3c" text-anchor="middle" dy=".3em">⚽ 신나는 체육 시간</text><rect x="50" y="50" width="60" height="60" rx="10" fill="%23fff" opacity="0.4"/><rect x="480" y="280" width="80" height="80" rx="15" fill="%23fff" opacity="0.3"/></svg>');
+            animation-delay: 1s; 
+        }
+
+        .kid-frame:hover { transform: scale(1.02); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+
+        /* [새 애니메이션 정의: 은은한 반짝임] */
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
+            50% { opacity: 0.85; box-shadow: 0 15px 30px rgba(255, 218, 193, 0.4); } /* 포인트 컬러로 번짐 효과 */
+        }
+
+        /* 2. 메인 카테고리 버튼 섹션 (사진 아래 배치) */
+        .main-selection { 
+            max-width: 1100px;
+            margin: 40px auto;
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 25px; 
+            padding: 0 20px;
+        }
+
+        .cat-card { 
+            background: white; 
+            border-radius: 30px; 
+            padding: 35px 20px; 
+            text-align: center; 
+            box-shadow: 0 8px 0 var(--point-color); 
+            cursor: pointer; 
+            transition: 0.3s; 
+            border: 3px solid var(--point-color); 
+        }
+        .cat-card:hover { transform: translateY(4px); box-shadow: 0 2px 0 var(--point-color); background-color: #fff9f0; }
+        .cat-card .icon { font-size: 2.8rem; margin-bottom: 10px; display: block; }
+        .cat-card .label { font-size: 1.4rem; font-weight: bold; font-family: 'Gaegu', cursive; color: #555; }
+
+        /* 하단 상세 페이지 디자인 */
+        .content-section { max-width: 1000px; margin: 30px auto; padding: 0 20px; display: none; }
+        .sub-menu-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 25px; }
+        .chip { padding: 10px 20px; background: white; border: 2px solid var(--sub-color); border-radius: 50px; cursor: pointer; font-weight: bold; transition: 0.2s; color: #777; }
+        .chip.active { background: var(--sub-color); color: white; border-color: var(--sub-color); }
+        .category-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .current-path { font-family: 'Gaegu', cursive; font-size: 1.8rem; color: var(--primary-color); }
+
+        .btn { padding: 10px 20px; border-radius: 15px; border: none; cursor: pointer; font-weight: bold; margin-left: 5px; transition: 0.2s; }
+        .btn-add { background: var(--primary-color); color: white; }
+        .btn-upload { background: var(--sub-color); color: white; }
+        
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .card { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); position: relative; border: 1px solid #eee; }
+        .card img { width: 100%; border-radius: 10px; margin-bottom: 10px; }
+        .delete-btn { position: absolute; top: 10px; right: 10px; cursor: pointer; background: none; border: none; color: #ddd; font-size: 1.2rem; }
+
+        /* 출석부 테이블 */
+        .attendance-table { width: 100%; background: white; border-radius: 20px; border-collapse: collapse; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .attendance-table th, .attendance-table td { padding: 15px; border-bottom: 1px solid #eee; text-align: center; }
+        .att-btn { padding: 6px 15px; border-radius: 12px; border: 1px solid #ddd; cursor: pointer; margin: 2px; }
+        .att-present { background: #e3f9e5; color: #2ecc71; border-color: #2ecc71; font-weight: bold; }
+        .att-late { background: #fff9db; color: #f1c40f; border-color: #f1c40f; font-weight: bold; }
+        .att-absent { background: #ffe3e3; color: #e74c3c; border-color: #e74c3c; font-weight: bold; }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 30px; border-radius: 30px; width: 90%; max-width: 450px; border: 4px solid var(--primary-color); }
+        textarea, input[type="text"] { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #f0f0f0; border-radius: 12px; box-sizing: border-box; }
+
+        @media (max-width: 768px) {
+            .kids-banner { height: 200px; }
+            .main-selection { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-area" onclick="location.reload()">
+        <h1 class="logo-title"><span>☀️</span> 써니쌤의 교실</h1>
+    </div>
+</header>
+
+<div id="bannerArea">
+    <div class="kids-banner">
+        <div class="kid-frame kf1" title="즐거운 국어 시간"></div>
+        <div class="kid-frame kf2" title="꿈 꾸는 그리기"></div>
+        <div class="kid-frame kf3" title="신나는 체육 시간"></div>
+    </div>
+
+    <div class="main-selection">
+        <div class="cat-card" onclick="openCategory('교과수업')"><span class="icon">📚</span><span class="label">교과수업</span></div>
+        <div class="cat-card" onclick="openCategory('학급운영')"><span class="icon">🏫</span><span class="label">학급운영</span></div>
+        <div class="cat-card" onclick="openCategory('학부모')"><span class="icon">👨‍👩‍👧</span><span class="label">학부모</span></div>
+    </div>
+</div>
+
+<main id="contentSection" class="content-section">
+    <div id="subMenuChips" class="sub-menu-chips"></div>
+    <div class="category-header">
+        <div id="currentPath" class="current-path">항목을 선택해주세요</div>
+        <div id="actionButtons">
+            <button id="btnBulk" class="btn btn-upload" style="display:none;" onclick="openBulkModal()">📋 명단 일괄등록</button>
+            <button id="btnAdd" class="btn btn-add" style="display:none;" onclick="openModal()">+ 새 글 추가</button>
+        </div>
+    </div>
+    <div id="displayArea"></div>
+</main>
+
+<div id="bulkModal" class="modal"><div class="modal-content"><h3>명단 일괄 등록</h3><textarea id="bulkInput" rows="10" placeholder="이름을 엔터나 쉼표로 구분하세요."></textarea><div style="text-align: right; margin-top: 20px;"><button class="btn" onclick="closeBulkModal()">취소</button><button class="btn btn-upload" onclick="processBulkInput()">등록</button></div></div></div>
+<div id="inputModal" class="modal"><div class="modal-content"><h3 id="modalTitle">기록 남기기</h3><input type="text" id="postTitle" placeholder="제목"><textarea id="postContent" rows="5" placeholder="내용"></textarea><div id="imageArea" style="display:none;"><input type="file" id="imageInput" accept="image/*"></div><div style="text-align: right; margin-top: 20px;"><button class="btn" onclick="closeModal()">취소</button><button class="btn btn-add" onclick="saveData()">저장</button></div></div></div>
+
+<script>
+    const config = {
+        '교과수업': ['국어', '수학', '통합교과'],
+        '학급운영': ['출석부', '추억사진', '아침활동', '1인1역할', '자리배치도', '학생상담'],
+        '학부모': ['학부모 연락처', '학부모상담']
+    };
+
+    let db = JSON.parse(localStorage.getItem('sunny_db_final_v5')) || { posts: [], students: [], photos: [] };
+    let curMain = '', curSub = '';
+
+    function openCategory(mainCat) {
+        curMain = mainCat;
+        document.getElementById('bannerArea').style.display = 'none';
+        document.getElementById('contentSection').style.display = 'block';
+        const chips = document.getElementById('subMenuChips');
+        chips.innerHTML = '';
+        config[mainCat].forEach(sub => {
+            const c = document.createElement('div');
+            c.className = 'chip'; c.innerText = sub;
+            c.onclick = (e) => selectSub(sub, e.target);
+            chips.appendChild(c);
+        });
+    }
+
+    function selectSub(sub, el) {
+        curSub = sub;
+        document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+        document.getElementById('currentPath').innerText = `${curMain} > ${sub}`;
+        document.getElementById('btnAdd').style.display = (sub === '출석부') ? 'none' : 'inline-block';
+        document.getElementById('btnBulk').style.display = (sub === '출석부' || sub === '학부모 연락처') ? 'inline-block' : 'none';
+        document.getElementById('imageArea').style.display = (sub === '추억사진') ? 'block' : 'none';
+        renderSubView();
+    }
+
+    function renderSubView() {
+        const area = document.getElementById('displayArea');
+        area.innerHTML = '';
+        if(curSub === '출석부') renderAttendance(area);
+        else if(curSub === '추억사진') renderPhotos(area);
+        else renderPosts(area);
+    }
+
+    function openBulkModal() { document.getElementById('bulkModal').style.display = 'flex'; }
+    function closeBulkModal() { document.getElementById('bulkModal').style.display = 'none'; }
+    function processBulkInput() {
+        const text = document.getElementById('bulkInput').value;
+        const names = text.split(/[\n,]+/).map(n => n.trim()).filter(n => n !== "");
+        names.forEach(name => {
+            if(curSub === '출석부') db.students.push({name, status: '출석'});
+            else db.posts.push({id: Date.now() + Math.random(), main: curMain, sub: curSub, title: name + "님", content: "내용을 입력하세요."});
+        });
+        saveDB(); renderSubView(); closeBulkModal();
+    }
+
+    function renderAttendance(area) {
+        if(db.students.length === 0) { area.innerHTML = "명단을 등록해 주세요!"; return; }
+        let html = `<table class="attendance-table"><tr><th>이름</th><th>출결</th><th>삭제</th></tr>`;
+        db.students.forEach((s, idx) => {
+            html += `<tr><td><b>${s.name}</b></td><td>
+                <button onclick="setAtt(${idx}, '출석')" class="att-btn ${s.status==='출석'?'att-present':''}">출석</button>
+                <button onclick="setAtt(${idx}, '지각')" class="att-btn ${s.status==='지각'?'att-late':''}">지각</button>
+                <button onclick="setAtt(${idx}, '결석')" class="att-btn ${s.status==='결석'?'att-absent':''}">결석</button>
+            </td><td><button onclick="deleteStudent(${idx})" style="border:none; background:none; color:#ddd; cursor:pointer;">✖</button></td></tr>`;
+        });
+        area.innerHTML = html + `</table>`;
+    }
+
+    function setAtt(idx, status) { db.students[idx].status = status; saveDB(); renderSubView(); }
+    function deleteStudent(idx) { db.students.splice(idx, 1); saveDB(); renderSubView(); }
+
+    function renderPhotos(area) {
+        const grid = document.createElement('div'); grid.className = 'card-grid';
+        db.photos.forEach((p, idx) => {
+            const card = document.createElement('div'); card.className = 'card';
+            card.innerHTML = `<button class="delete-btn" onclick="deletePhoto(${idx})">✖</button><img src="${p.url}"><h4>${p.title}</h4>`;
+            grid.appendChild(card);
+        });
+        area.appendChild(grid);
+    }
+
+    function renderPosts(area) {
+        const grid = document.createElement('div'); grid.className = 'card-grid';
+        db.posts.filter(p => p.sub === curSub).forEach(p => {
+            const card = document.createElement('div'); card.className = 'card';
+            card.innerHTML = `<button class="delete-btn" onclick="deletePost(${p.id})">✖</button><h4>${p.title}</h4><p>${p.content}</p>`;
+            grid.appendChild(card);
+        });
+        area.appendChild(grid);
+    }
+
+    function openModal() { document.getElementById('inputModal').style.display = 'flex'; }
+    function closeModal() { document.getElementById('inputModal').style.display = 'none'; }
+    function saveData() {
+        const title = document.getElementById('postTitle').value;
+        const content = document.getElementById('postContent').value;
+        if(curSub === '추억사진') {
+            const file = document.getElementById('imageInput').files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = e => { db.photos.push({title, url: e.target.result}); saveDB(); closeModal(); renderSubView(); };
+                reader.readAsDataURL(file);
+            }
+        } else {
+            db.posts.push({id: Date.now(), main: curMain, sub: curSub, title, content});
+            saveDB(); closeModal(); renderSubView();
+        }
+    }
+
+    function deletePost(id) { db.posts = db.posts.filter(p => p.id !== id); saveDB(); renderSubView(); }
+    function deletePhoto(idx) { db.photos.splice(idx, 1); saveDB(); renderSubView(); }
+    function saveDB() { localStorage.setItem('sunny_db_final_v5', JSON.stringify(db)); }
+</script>
+</body>
+</html>
